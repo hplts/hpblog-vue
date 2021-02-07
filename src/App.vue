@@ -1,21 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <router-view v-if="isFresh"></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  export default {
+    name:'app',
+    provide(){
+      return {
+        reload: this.reload
+      }
+    },
+    data(){
+      return{
+        isFresh: true
+      }
+    },
+    methods:{
+      reload(){
+        this.isFresh = false;
+        this.$nextTick(()=>{
+          this.isFresh = true;
+        });
+      }
+    }
   }
-}
 </script>
-
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -23,6 +34,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
+
 </style>
